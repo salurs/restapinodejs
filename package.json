@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/salurs/restapinodejs/issues"
   },
-  "homepage": "https://github.com/salurs/restapinodejs#readme"
+  "homepage": "https://github.com/salurs/restapinodejs#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.20"
+  }
 }
