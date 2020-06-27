@@ -1,0 +1,20 @@
+{
+  "name": "restapinodejs",
+  "version": "1.0.0",
+  "description": "Rest Api Nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salurs/restapinodejs.git"
+  },
+  "author": "Orhan SALUR",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/salurs/restapinodejs/issues"
+  },
+  "homepage": "https://github.com/salurs/restapinodejs#readme"
+}
