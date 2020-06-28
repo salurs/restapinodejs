@@ -1,26 +1,51 @@
 // const express = require('express');
 // const router = express.Router();
 const router = require('express').Router();
+const User = require('../models/userModel');
 
 
-router.get('/', (req,res)=>{
-    res.json({"message":"get users list"});
+router.get('/', async (req,res)=>{
+    try {
+        const users = await User.find({});
+        if(users) return res.json({"data":users,"message":"List"});
+        res.json({"data":users,"message":"Empty list"});
+    } catch (error) {
+        res.status(400).json({"error":err,"message":"Something wrong"});
+    }
 });
 
 router.get('/:id', (req,res)=>{
     res.json({"message":"get user "+req.params.id});
 });
 
-router.post('/', (req,res)=>{
-    res.json(req.body);
+router.post('/', async (req,res)=>{
+    try {
+        const user = new User(req.body);
+        const result = await user.save();
+        res.json({"data":result,"message":"Saved"});
+    } catch (err) {
+        res.status(400).json({"error":err,"message":"Something wrong"});
+    }
 });
 
-router.patch('/:id', (req,res)=>{
-    res.json({"message":"update user "+req.body.name+' '+req.body.surname+' '+req.body.age});
+router.patch('/:id', async (req,res)=>{
+    try {
+        const user = await User.findByIdAndUpdate({_id:req.params.id},req.body,{new:true,runValidators:true});
+        if(user) return res.json({"data":user,"message":"Updated"});
+        res.status(404).json({"data":null,"message":"Not found"});
+    } catch (err) {
+        res.status(400).json({"error":err,"message":"Something wrong"});
+    }
 });
 
-router.delete('/:id', (req,res)=>{
-    res.json({"message":"delete user "+req.params.id});
+router.delete('/:id', async (req,res)=>{
+    try {
+        const user = await User.findByIdAndDelete({_id:req.params.id});
+        if(user) return res.json({"data":user,"message":"User deleted"});
+        res.status(404).json({"message":"Not found"});
+    } catch (err) {
+        res.status(400).json({"error":err,"message":"Something wrong"});
+    }
 });
 
 

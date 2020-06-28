@@ -10,20 +10,19 @@ Content-Type: application/json
 
 {
     "name":"Orhan",
-    "surname":"SALUR",
-    "age":31
+    "userName":"Orhan",
+    "email":"Orhan@gmail.com",
+    "password":"12344321"
 }
 ###
-PATCH {{BASE_URL}}/users/31
+PATCH {{BASE_URL}}/users/5ef8c647058d7a3e31aebd9b
 Content-Type: application/json
 
 {
-    "name":"Orhan",
-    "surname":"SALUR",
-    "age":32
+    "name":"Orhan 01"
 }
 ###
-DELETE {{BASE_URL}}/users/31
+DELETE {{BASE_URL}}/users/5ef8beeb8f2eea3a8c95a08f
 Content-Type: application/json
 
 

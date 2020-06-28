@@ -15,7 +15,8 @@ const UserSchema = new Schema({
         unique: true,
         trim: true,
         minlength:3,
-        maxlength:50
+        maxlength:50,
+        lowercase:true
     },
     email:{
         type: String,
@@ -29,7 +30,7 @@ const UserSchema = new Schema({
         required: true,
         trim: true,
     }
-});
+},{timestamps:true});
 
 const User = mongoose.model('User', UserSchema);
 
