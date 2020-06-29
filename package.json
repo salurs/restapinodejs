@@ -19,6 +19,7 @@
   "homepage": "https://github.com/salurs/restapinodejs#readme",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
+    "bcrypt": "^5.0.0",
     "express": "^4.17.1",
     "http-errors": "^1.7.3",
     "mongoose": "^5.9.20"
