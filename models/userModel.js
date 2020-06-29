@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
+const createError = require('http-errors');
+const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -55,6 +57,21 @@ UserSchema.methods.toJSON = function(){
 }
 UserSchema.statics.joiValidationUpdate = (user)=>{
     return schema.validate(user);
+};
+UserSchema.statics.isLogin = async (email, password)=>{
+    const {error, value} = schema.validate({email,password});
+    if(error){
+        throw createError(400, 'Validation Error');
+    }
+    const user = await User.findOne({email});
+    if(!user){
+        throw createError(400, 'Email or password incorrect');
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if(!isMatch){
+        throw createError(400, 'Email or password incorrect');
+    }
+    return user;
 };
 const User = mongoose.model('User', UserSchema);
 

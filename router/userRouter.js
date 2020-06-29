@@ -1,5 +1,3 @@
-// const express = require('express');
-// const router = express.Router();
 const router = require('express').Router();
 const User = require('../models/userModel');
 const createError = require('http-errors');
@@ -94,6 +92,16 @@ router.delete('/:id', async (req,res,next)=>{
             message:"Deleted"
         });
         throw createError(404, 'Not Found');
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.post('/login', async (req,res,next)=>{
+    try {
+        const user = await User.isLogin(req.body.email, req.body.password);
+        res.json(user);
+
     } catch (err) {
         next(createError(400,err));
     }

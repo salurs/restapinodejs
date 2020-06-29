@@ -9,20 +9,17 @@ POST {{BASE_URL}}/users
 Content-Type: application/json
 
 {
-    "name":"test",
-    "userName":"test1",
-    "email":"test1@gmail.com",
-    "password":"12344321"
+    "name":"jimmy",
+    "userName":"jimmy",
+    "email":"jimmy@gmail.com",
+    "password":"jimmy"
 }
 
 ###
-PATCH {{BASE_URL}}/users/5ef96116d21a1f2af9ef2545
+PATCH {{BASE_URL}}/users/5efa3d9c336dc931e00c3c22
 Content-Type: application/json
 
 {
-    "name":"jhon",
-    "userName":"jhon",
-    "email":"jhon@gmail.com",
     "password":"12344321"
 }
 
@@ -35,3 +32,12 @@ Content-Type: application/json
 # Content-Type: application/x-www-form-urlencoded
 
 # name=Orhan&surname=SALUR&age&32
+
+###
+POST {{BASE_URL}}/users/login
+Content-Type: application/json
+
+{
+    "email":"jimmy@gmail.com",
+    "password":"12344321"
+}
