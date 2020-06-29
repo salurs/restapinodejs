@@ -3,26 +3,30 @@
 GET {{BASE_URL}}/users
 ###
 
-GET {{BASE_URL}}/users/31
+GET {{BASE_URL}}/users/5ef96116d21a1f2af9ef2545
 ###
 POST {{BASE_URL}}/users
 Content-Type: application/json
 
 {
-    "name":"Orhan",
-    "userName":"Orhan",
-    "email":"Orhan@gmail.com",
+    "name":"test",
+    "userName":"test1",
+    "email":"test1@gmail.com",
     "password":"12344321"
 }
+
 ###
-PATCH {{BASE_URL}}/users/5ef8c647058d7a3e31aebd9b
+PATCH {{BASE_URL}}/users/5ef96116d21a1f2af9ef2545
 Content-Type: application/json
 
 {
-    "name":"Orhan 01"
+    "name":"jimmy",
+    "userName":"jimmy",
+    "email":"jimmy@gmail.com"
 }
+
 ###
-DELETE {{BASE_URL}}/users/5ef8beeb8f2eea3a8c95a08f
+DELETE {{BASE_URL}}/users/d
 Content-Type: application/json
 
 

@@ -1,5 +1,7 @@
 const express = require('express');
 const dbConnection = require('./db/dbConnection');
+//middleware
+const errorMiddleware = require('./middleware/error');
 //routers
 const userRouter = require('./router/userRouter');
 
@@ -15,6 +17,8 @@ app.use('/api/users', userRouter);
 app.get('/', (req,res)=>{
     res.json({"message":"Hello World"});
 });
+
+app.use(errorMiddleware);
 
 app.listen(3000, _ =>{
     console.log('Server running...');

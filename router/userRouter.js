@@ -2,49 +2,95 @@
 // const router = express.Router();
 const router = require('express').Router();
 const User = require('../models/userModel');
+const createError = require('http-errors');
 
 
 router.get('/', async (req,res)=>{
     try {
         const users = await User.find({});
-        if(users) return res.json({"data":users,"message":"List"});
-        res.json({"data":users,"message":"Empty list"});
+        if(users) return res.json({
+            status: 'success',
+            statusCode: 200,
+            data:users,
+            message:"Listed"
+        });
+        res.json({
+            status: 'success',
+            statusCode: 200,
+            data:users,
+            message:"No Item"
+        });
     } catch (error) {
-        res.status(400).json({"error":err,"message":"Something wrong"});
+        throw createError(404, 'Not Found');
     }
 });
 
-router.get('/:id', (req,res)=>{
-    res.json({"message":"get user "+req.params.id});
+router.get('/:id', async (req,res,next)=>{
+    try {
+        const user = await User.findById({_id:req.params.id});
+        if(user) return res.json({
+            status: 'success',
+            statusCode: 200,
+            data:user,
+            message:"Found"
+        });
+        throw createError(404, 'Not Found');
+    } catch (err) {
+        next(createError(400,err));
+    }
 });
 
-router.post('/', async (req,res)=>{
+router.post('/', async (req,res, next)=>{
     try {
         const user = new User(req.body);
+        const {error, value} = user.joiValidation(req.body);
+        if(error)
+            return next(createError(400, error));
         const result = await user.save();
-        res.json({"data":result,"message":"Saved"});
+        res.json({
+            status: 'success',
+            statusCode: 200,
+            data:result,
+            message:"Created"
+        });
     } catch (err) {
-        res.status(400).json({"error":err,"message":"Something wrong"});
+        next(createError(400,err));
     }
 });
 
-router.patch('/:id', async (req,res)=>{
+router.patch('/:id', async (req,res,next)=>{
+    delete req.body.createdAt;
+    delete req.body.updatedAt;
+    delete req.body.password;
+    const {error, value} = User.joiValidationUpdate(req.body);
+    if(error)
+        return next(createError(400, error));
     try {
-        const user = await User.findByIdAndUpdate({_id:req.params.id},req.body,{new:true,runValidators:true});
-        if(user) return res.json({"data":user,"message":"Updated"});
-        res.status(404).json({"data":null,"message":"Not found"});
+        const user = await User.findByIdAndUpdate({_id:req.params.id},req.body,{new:true,runValidators:true,useFindAndModify:false});
+        if(user) return res.json({
+            status: 'success',
+            statusCode: 200,
+            data:user,
+            message:"Updated"
+        });
+        throw createError(404, 'Not Found');
     } catch (err) {
-        res.status(400).json({"error":err,"message":"Something wrong"});
+        next(createError(400,err));
     }
 });
 
-router.delete('/:id', async (req,res)=>{
+router.delete('/:id', async (req,res,next)=>{
     try {
         const user = await User.findByIdAndDelete({_id:req.params.id});
-        if(user) return res.json({"data":user,"message":"User deleted"});
-        res.status(404).json({"message":"Not found"});
+        if(user) return res.json({
+            status: 'success',
+            statusCode: 200,
+            data: user,
+            message:"Deleted"
+        });
+        throw createError(404, 'Not Found');
     } catch (err) {
-        res.status(400).json({"error":err,"message":"Something wrong"});
+        next(createError(400,err));
     }
 });
 
