@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
 const createError = require('http-errors');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -54,7 +55,12 @@ UserSchema.methods.toJSON = function(){
     delete user.updatedAt;
     delete user.__v;
     return user;
-}
+};
+UserSchema.methods.generateToken = async function(){
+    const user = this;
+    const token = await jwt.sign({_id:user._id},'secretKey',{expiresIn:'1h'});
+    return token;
+};
 UserSchema.statics.joiValidationUpdate = (user)=>{
     return schema.validate(user);
 };

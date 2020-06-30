@@ -41,3 +41,21 @@ Content-Type: application/json
     "email":"jimmy@gmail.com",
     "password":"12344321"
 }
+
+###
+GET {{BASE_URL}}/users/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWZhM2Q5YzMzNmRjOTMxZTAwYzNjMjIiLCJlbWFpbCI6ImppbW15QGdtYWlsLmNvbSIsImlzQWN0aXZlIjpmYWxzZSwiaWF0IjoxNTkzNDkxNzYwLCJleHAiOjE1OTM0OTUzNjB9.JjbrM3q4i5rjL2E-kxW47GgeLIFBZQGoSoGmVsNteJA
+
+{
+    "email":"jimmy@gmail.com",
+    "password":"12344321"
+}
+
+###
+PATCH {{BASE_URL}}/users/me
+Content-Type: application/json
+
+{
+    "password":"12344321"
+}
