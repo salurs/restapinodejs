@@ -3,9 +3,10 @@ const User = require('../models/userModel');
 const createError = require('http-errors');
 const bcrypt = require('bcrypt');
 const authMiddleware = require('../middleware/auth');
+const roleMiddleware = require('../middleware/role');
 
 
-router.get('/', async (req,res)=>{
+router.get('/', [authMiddleware,roleMiddleware], async (req,res)=>{
     try {
         const users = await User.find({});
         if(users) return res.json({
@@ -50,6 +51,22 @@ router.patch('/me', authMiddleware, async (req,res,next)=>{
         next(createError(400,err));
     }
 });
+router.delete('/me', [authMiddleware,roleMiddleware], async (req,res,next)=>{
+    try {
+        const user = await User.findByIdAndDelete({_id:req.user._id});
+        if(user) return res.json({
+            status: 'success',
+            statusCode: 200,
+            data:user,
+            message:"Deleted"
+        });
+        throw createError(404, 'Not Found');
+    } catch (err) {
+        next(createError(400,err));
+    }
+
+});
+
 
 
 router.get('/:id', async (req,res,next)=>{
@@ -109,8 +126,21 @@ router.patch('/:id', async (req,res,next)=>{
         next(createError(400,err));
     }
 });
-
-router.delete('/:id', async (req,res,next)=>{
+router.delete('/deleteAll',[authMiddleware,roleMiddleware], async (req,res,next)=>{
+    try {
+        const users = await User.deleteMany({isAdmin:false});
+        if(users) return res.json({
+            status: 'success',
+            statusCode: 200,
+            data: users,
+            message:"Deleted"
+        });
+        throw createError(404, 'Not Found');
+    } catch (err) {
+        next(err);
+    }
+});
+router.delete('/:id',[authMiddleware,roleMiddleware], async (req,res,next)=>{
     try {
         const user = await User.findByIdAndDelete({_id:req.params.id});
         if(user) return res.json({
@@ -125,9 +155,13 @@ router.delete('/:id', async (req,res,next)=>{
     }
 });
 
+
+
 router.post('/login', async (req,res,next)=>{
     try {
         const user = await User.isLogin(req.body.email, req.body.password);
+        if(!user)
+            throw createError(400,"err");
         const token = await user.generateToken();
         res.json({
             user,

@@ -4,8 +4,8 @@ const catchErrors = (err, req, res, next)=>{
    
     if(err.name === 'CastError')
         err.message = 'Invalid Parameter';
-    else if(err.name === 'ValidationError')
-        err.message = 'Validation Error';
+    // else if(err.name === 'ValidationError')
+    //     err.message = 'Validation Error';
     else if(err.name === 'MongoError')
         err.message = 'Database Error';
     //

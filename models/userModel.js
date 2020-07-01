@@ -33,6 +33,10 @@ const UserSchema = new Schema({
         type: String,
         required: true,
         trim: true,
+    },
+    isAdmin:{
+        type: Boolean,
+        default: false
     }
 },{timestamps:true});
 
@@ -40,12 +44,13 @@ const schema = Joi.object({
     name: Joi.string().min(3).max(50).trim(),
     userName: Joi.string().min(3).max(50).trim(),
     email: Joi.string().trim().email(),
-    password: Joi.string().trim().min(5)
+    password: Joi.string().trim().min(5),
+    isAdmin:Joi.boolean()
 });
 
 UserSchema.methods.joiValidation = (user)=>{
     schema.required();
-    return schema.validate(user);
+    return schema.validate(user,{abortEarly:false});
 };
 UserSchema.methods.toJSON = function(){
     const user = this.toObject();

@@ -1,6 +1,8 @@
 @BASE_URL = http://localhost:3000/api
-
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWZhZDhiZTE1NTUzNGRjODQ2MWFlNjgiLCJpYXQiOjE1OTM1ODIyMjIsImV4cCI6MTU5MzU4NTgyMn0.iJIRfmt1gihudb5sJ-2RohBce7atjj36BoKaUgKBZv4
 GET {{BASE_URL}}/users
+Content-Type: application/json
+Authorization: {{token}}
 ###
 
 GET {{BASE_URL}}/users/5ef96116d21a1f2af9ef2545
@@ -9,10 +11,11 @@ POST {{BASE_URL}}/users
 Content-Type: application/json
 
 {
-    "name":"jimmy",
-    "userName":"jimmy",
-    "email":"jimmy@gmail.com",
-    "password":"jimmy"
+    "name":"user6",
+    "userName":"user6",
+    "email":"user6@gmail.com",
+    "password":"user6",
+    "isAdmin":false
 }
 
 ###
@@ -38,24 +41,31 @@ POST {{BASE_URL}}/users/login
 Content-Type: application/json
 
 {
-    "email":"jimmy@gmail.com",
-    "password":"12344321"
+    "email":"admin@gmail.com",
+    "password":"admin"
 }
 
 ###
 GET {{BASE_URL}}/users/me
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWZhM2Q5YzMzNmRjOTMxZTAwYzNjMjIiLCJlbWFpbCI6ImppbW15QGdtYWlsLmNvbSIsImlzQWN0aXZlIjpmYWxzZSwiaWF0IjoxNTkzNDkxNzYwLCJleHAiOjE1OTM0OTUzNjB9.JjbrM3q4i5rjL2E-kxW47GgeLIFBZQGoSoGmVsNteJA
+Authorization: {{token}}
 
-{
-    "email":"jimmy@gmail.com",
-    "password":"12344321"
-}
+###
+DELETE  {{BASE_URL}}/users/me
+Content-Type: application/json
+Authorization: {{token}}
 
 ###
 PATCH {{BASE_URL}}/users/me
 Content-Type: application/json
+Authorization: {{token}}
 
 {
-    "password":"12344321"
+    "name":"Orhan"
 }
+###
+DELETE {{BASE_URL}}/users/deleteAll
+Content-Type: application/json
+Authorization: {{token}}
+
+###
